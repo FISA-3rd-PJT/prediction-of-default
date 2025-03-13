@@ -2,10 +2,11 @@
 
 ![Image](https://github.com/user-attachments/assets/3a10c773-2c76-42f8-acac-eb2a937ea6cf)
 
-## 1. 프로젝트 개요
+# 1. 프로젝트 개요
 이 프로젝트는 개인의 채무 불이행 여부를 예측하는 AI 모델을 개발하는 프로젝트입니다. 금융 서비스 제공자에게 리스크 관리와 고객 맞춤형 서비스를 제공하기 위해, 수집된 데이터를 기반으로 머신러닝 및 딥러닝 기법을 적용하여 채무 불이행 여부를 예측하는 모델을 구축하였습니다.
 
 
+# 2. 데이터
 ## 2-1. 데이터 설명
 
 - train: 10,000개
@@ -98,17 +99,48 @@
 
 ***
 
+# 3. ML
 
-## 3. ML
+## 3-1. 데이터 전처리
+
+- **이상치 처리**  
+  - Winsorizing(상/하위 1% 값 클리핑)  
+  - IQR(사분위 범위) 기반 이상치 조정
+- **로그 변환**  
+  - 현재 미상환 신용액, 월 상환 부채액, 현재 대출 잔액 로그 변환
+- **파생 변수 추가**  
+  - "마지막 연체 이후 경과 개월 수"가 0이면 "연체 없음" 컬럼 추가
+- **결측치 처리**  
+  - KNNImputer(n_neighbors=25)를 이용한 결측치 보간
+- **정규화**  
+  - StandardScaler를 사용하여 평균 0, 분산 1로 변환
+
+## 3-2. 모델 학습 및 평가
+
+### **로지스틱 회귀(Logistic Regression)**
+
+- `C=1e-17, L2 규제 적용`
+- `solver='liblinear'` 사용
+- ROC-AUC 점수 평가
+
+```python
+best_model = LogisticRegression(
+    random_state=42,
+    solver='liblinear',
+    penalty='l2',
+    C=1e-17
+)
+best_model.fit(X_scaled, y)
+```
 
 
 
 ***
 
 
-## 4. DL
+# 4. DL
 
-### 최적 옵티마이저 선정
+## 최적 옵티마이저 선정
 
 50회 / 조기종료
 
@@ -123,34 +155,37 @@ adamW   .7325 / .7312
 adagrad .7318 / .7319
 
 
-### 하이퍼 파라미터 튜닝
+## 하이퍼 파라미터 튜닝
 활성화함수, 학습률, input_dim, 드롭아웃, 배치 사이즈 등을 수정하며 성능이 가장 높게 나오는 경우를 도출
 
 
 
-    from itertools import product
-    optimizer_lr_pairs = []
-    for opt in ['Adam']:  # 최적화된 옵티마이저로 고정
-        for lr in [0.001, 0.01]:  # 최적화된 학습률로 고정
-            optimizer_lr_pairs.append((opt, lr))
-    
-    first_size_options = [64, 128, 56]  # first_size
-    dropout_rate_options = [0.3, 0.2]  # 드롭아웃
-    batch_size_options = [64, 128]  # 배치 사이즈
-    activation_functions = [nn.ReLU, nn.LeakyReLU, nn.ELU, nn.Mish, nn.SELU] # 활성화함수
-    
-    all_combinations = product(optimizer_lr_pairs, first_size_options, dropout_rate_options, batch_size_options, activation_functions)
-    
-    results = []
-    for combo in all_combinations:
-        opt_lr, first_size, dropout_rate, batch_size, activation = combo
-        opt_name, lr = opt_lr
-        epoch, auc = train_and_evaluate(opt_name, lr, first_size, dropout_rate, batch_size, activation)
-        results.append((opt_name, lr, first_size, dropout_rate, batch_size, activation.__name__, epoch, auc))
-    
-    best_result = max(results, key=lambda x: x[-1])
-    print("Best hyper-parameters:", best_result[:-1])
-    print("Best ROC-AUC:", best_result[-1])
+```python
+from itertools import product
+optimizer_lr_pairs = []
+for opt in ['Adam', 'SGD']:  # 최적화된 옵티마이저로 고정
+    for lr in [0.01, 0.001]:  # 최적화된 학습률로 고정
+        optimizer_lr_pairs.append((opt, lr))
+first_size_options = [256, 128, 64]  # 최적화된 첫 번째 층 크기로 고정
+dropout_rate_options = [0.5, 0.3, 0.1]  # 최적화된 드롭아웃 비율로 고정
+batch_size_options = [64]  # 최적화된 배치 크기로 고정
+activation_functions = [nn.ReLU, nn.LeakyReLU, nn.ELU]
+all_combinations = product(optimizer_lr_pairs, first_size_options, dropout_rate_options, batch_size_options, activation_functions)
+results = []
+for combo in all_combinations:
+    opt_lr, first_size, dropout_rate, batch_size, activation = combo
+    opt_name, lr = opt_lr
+    epoch, auc = train_and_evaluate(opt_name, lr, first_size, dropout_rate, batch_size, activation)
+    results.append((opt_name, lr, first_size, dropout_rate, batch_size, activation.__name__, epoch, auc))
+best_result = max(results, key=lambda x: x[-1])
+print("Best hyper-parameters:", best_result[:-1])
+print("Best ROC-AUC:", best_result[-1])
+
+```
+
+![Image](https://github.com/user-attachments/assets/6f4c5d4d-cf2b-4c99-ab4e-1b861f3b3d26)
+
+![Image](https://github.com/user-attachments/assets/819c438b-78d6-4581-8f75-4759293adaf4)
 
 
 **✅ Adam, lr=0.001, first_size=128, dropout_rate=0.3, batch_size=64, activation_function=ReLU**

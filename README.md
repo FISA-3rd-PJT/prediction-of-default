@@ -3,7 +3,7 @@
 ![Image](https://github.com/user-attachments/assets/3a10c773-2c76-42f8-acac-eb2a937ea6cf)
 
 # 1. 프로젝트 개요
-이 프로젝트는 개인의 채무 불이행 여부를 예측하는 AI 모델을 개발하는 프로젝트입니다. 금융 서비스 제공자에게 리스크 관리와 고객 맞춤형 서비스를 제공하기 위해, 수집된 데이터를 기반으로 머신러닝 및 딥러닝 기법을 적용하여 채무 불이행 여부를 예측하는 모델을 구축하였습니다.
+이 프로젝트는 **개인의 채무 불이행 여부를 예측하는 AI 모델을 개발**하는 프로젝트입니다. 금융 서비스 제공자에게 리스크 관리와 고객 맞춤형 서비스를 제공하기 위해, 수집된 데이터를 기반으로 머신러닝 및 딥러닝 기법을 적용하여 채무 불이행 여부를 예측하는 모델을 구축하였습니다.
 
 
 # 2. 데이터
@@ -96,6 +96,24 @@
       X_imputed = knn_imputer.fit_transform(X)
       test_imputed = knn_imputer.transform(test_df)
 
+- **이상치 처리**
+  ```python
+  def handle_outliers(df, col):
+      Q1 = df[col].quantile(0.25)
+      Q3 = df[col].quantile(0.75)
+      IQR = Q3 - Q1
+      lower_bound = Q1 - 1.5 * IQR
+      upper_bound = Q3 + 1.5 * IQR
+      df[col] = np.clip(df[col], lower_bound, upper_bound)
+      return df
+  numerical_cols = ['연간 소득', '체납 세금 압류 횟수', '개설된 신용계좌 수', '신용 거래 연수', '최대 신용한도',
+                    '신용 문제 발생 횟수', '마지막 연체 이후 경과 개월 수', '개인 파산 횟수', '현재 대출 잔액',
+                    '현재 미상환 신용액', '월 상환 부채액', '신용 점수']
+  
+  for col in numerical_cols:
+      df_train = handle_outliers(df_train, col)
+      df_test = handle_outliers(df_test, col)
+  ```
 
 ***
 
@@ -106,16 +124,23 @@
 - **이상치 처리**  
   - Winsorizing(상/하위 1% 값 클리핑)  
   - IQR(사분위 범위) 기반 이상치 조정
+ 
 - **로그 변환**  
   - 현재 미상환 신용액, 월 상환 부채액, 현재 대출 잔액 로그 변환
+    
 - **파생 변수 추가**  
-  - "마지막 연체 이후 경과 개월 수"가 0이면 "연체 없음" 컬럼 추가
+  - `마지막 연체 이후 경과 개월 수`가 0이면 `연체 없음` 컬럼 추가
+    
 - **결측치 처리**  
   - KNNImputer(n_neighbors=25)를 이용한 결측치 보간
+    
 - **정규화**  
   - StandardScaler를 사용하여 평균 0, 분산 1로 변환
 
+
 ## 3-2. 모델 학습 및 평가
+
+![Image](https://github.com/user-attachments/assets/0b14a5f2-798c-4f3d-91b3-7cbb8babbd9c)
 
 ### **로지스틱 회귀(Logistic Regression)**
 

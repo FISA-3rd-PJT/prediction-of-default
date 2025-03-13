@@ -1,6 +1,7 @@
 # 💰 채무 불이행 예측 해커톤: 불이행의 징후를 찾아라!
 
-![Image](https://github.com/user-attachments/assets/3a10c773-2c76-42f8-acac-eb2a937ea6cf)
+<a href="https://dacon.io/competitions/official/236450/overview/description"><img src="https://github.com/user-attachments/assets/3a10c773-2c76-42f8-acac-eb2a937ea6cf"></img></a>
+_👆 click_
 
 </br>
 

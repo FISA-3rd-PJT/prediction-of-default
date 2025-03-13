@@ -95,22 +95,6 @@
   test_df["연체 없음"] = (test_df["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
   ```
 
-
-- **수치변수 로그변환**
-  ```python
-  log_columns = ["현재 미상환 신용액", "월 상환 부채액", "현재 대출 잔액"]
-  for col in log_columns:
-      X[col] = np.log1p(X[col])
-      test_df[col] = np.log1p(test_df[col])
-  ```
-
-- **결측값 처리**
-  ```python
-  knn_imputer = KNNImputer(n_neighbors=25)
-  X_imputed = knn_imputer.fit_transform(X)
-  test_imputed = knn_imputer.transform(test_df)
-  ```
-
 - **이상치 처리**
   ```python
   def handle_outliers(df, col):
@@ -131,6 +115,18 @@
   ```
 
 
+- **수치변수 로그변환**
+
+      log_columns = ["현재 미상환 신용액", "월 상환 부채액", "현재 대출 잔액"]
+      for col in log_columns:
+          X[col] = np.log1p(X[col])
+          test_df[col] = np.log1p(test_df[col])
+
+- **결측값 처리**
+
+      knn_imputer = KNNImputer(n_neighbors=25)
+      X_imputed = knn_imputer.fit_transform(X)
+      test_imputed = knn_imputer.transform(test_df)
 
 
 ***

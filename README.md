@@ -30,7 +30,7 @@
 - train: 10,000개
 - test: 2,062개
   
-
+### 컬럼 구조
 | #   | Column                   | Non-Null Count   | Dtype    |
 |-----|--------------------------|------------------|----------|
 | 0   | UID                      | 10000 non-null   | object   |
@@ -52,6 +52,7 @@
 | 16  | 신용 점수                 | 10000 non-null   | int64    |
 | 17  | 채무 불이행 여부          | 10000 non-null   | int64    |
 
+### 상관관계
 ![Image](https://github.com/user-attachments/assets/7c113836-ecdb-4ec5-92bd-e4b36d0782cf)
 
 </br>

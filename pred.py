@@ -78,6 +78,9 @@ for df in [X, test_df]:
     iqr_capping(df, "연간 소득", factor=1.5)
 
 # 8. 결측치 처리(KNNImputer) & 스케일링
+# 단순 평균대체보다 데이터의 구조를 더 반영하기위하여
+# 결측치에 대하여 주변 25개의 샘플 평균값등을 사용하여 대체.
+# 이후 단위를 정규화 시킴. (평균 0,분산1)
 knn_imputer = KNNImputer(n_neighbors=25)
 X_imputed = knn_imputer.fit_transform(X)
 test_imputed = knn_imputer.transform(test_df)

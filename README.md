@@ -37,45 +37,6 @@
 ## 2-2. 범주형 데이터 처리
 
 
-
-### 주거 형태 - 빈도
-
-![Image](https://github.com/user-attachments/assets/fc3282a8-1d9b-4b27-9cec-c555052f94ee)
-
-### 대출 상환 기간 - 빈도
-
-![Image](https://github.com/user-attachments/assets/fb64279f-ad5a-4dd6-bdf0-04dfddbb3123)
-
-
-### 직장 근속 연수 - 빈도
-
-![Image](https://github.com/user-attachments/assets/73469916-40f9-4eb2-861d-48daa4ea1632)
-
-
-### 대출 목적 - 빈도
-
-![Image](https://github.com/user-attachments/assets/e3e71298-ad41-4838-bca6-edca83cc75a7)
-
-
-### 주거 형태 - 비율
-
-![Image](https://github.com/user-attachments/assets/a47d744c-5f22-48b7-8ef2-ac14463cdad3)
-
-
-### 대출 상환 기간 - 비율
-
-![Image](https://github.com/user-attachments/assets/045ff075-82db-4ea2-a9f5-e1b6023cf33f)
-
-
-### 직장 근속 연수 - 비율
-
-![Image](https://github.com/user-attachments/assets/b0202047-3c85-4fe5-b6e2-8c39b4bc7359)
-
-
-### 대출 목적 - 비율
-
-![Image](https://github.com/user-attachments/assets/5b6a5113-aceb-4cc8-9fa1-d1796e2e3d72)
-
 ### 주거 형태 - 빈도 및 대출 상환 기간 - 빈도
 
 | ![주거 형태 - 빈도](https://github.com/user-attachments/assets/fc3282a8-1d9b-4b27-9cec-c555052f94ee) | ![대출 상환 기간 - 빈도](https://github.com/user-attachments/assets/fb64279f-ad5a-4dd6-bdf0-04dfddbb3123) |

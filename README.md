@@ -1,9 +1,16 @@
-# 채무 불이행 예측 AI 모델 개발
+# 채무 불이행 예측 해커톤: 불이행의 징후를 찾아라!
 
 ![Image](https://github.com/user-attachments/assets/3a10c773-2c76-42f8-acac-eb2a937ea6cf)
 
+
 # 1. 프로젝트 개요
 이 프로젝트는 **개인의 채무 불이행 여부를 예측하는 AI 모델을 개발**하는 프로젝트입니다. 금융 서비스 제공자에게 리스크 관리와 고객 맞춤형 서비스를 제공하기 위해, 수집된 데이터를 기반으로 머신러닝 및 딥러닝 기법을 적용하여 채무 불이행 여부를 예측하는 모델을 구축하였습니다.
+
+
+## 1-1. 팀 소개
+**우리 FISA 4기 AI엔지니어링**
+강효진 윤웅상 이재영 허정원
+
 
 
 # 2. 데이터
@@ -115,55 +122,13 @@
       df_test = handle_outliers(df_test, col)
   ```
 
-***
-
-# 3. ML
-
-## 3-1. 데이터 전처리
-
-- **이상치 처리**  
-  - Winsorizing(상/하위 1% 값 클리핑)  
-  - IQR(사분위 범위) 기반 이상치 조정
- 
-- **로그 변환**  
-  - 현재 미상환 신용액, 월 상환 부채액, 현재 대출 잔액 로그 변환
-    
-- **파생 변수 추가**  
-  - `마지막 연체 이후 경과 개월 수`가 0이면 `연체 없음` 컬럼 추가
-    
-- **결측치 처리**  
-  - KNNImputer(n_neighbors=25)를 이용한 결측치 보간
-    
-- **정규화**  
-  - StandardScaler를 사용하여 평균 0, 분산 1로 변환
-
-
-## 3-2. 모델 학습 및 평가
-
-![Image](https://github.com/user-attachments/assets/0b14a5f2-798c-4f3d-91b3-7cbb8babbd9c)
-
-### **로지스틱 회귀(Logistic Regression)**
-
-- `C=1e-17, L2 규제 적용`
-- `solver='liblinear'` 사용
-- ROC-AUC 점수 평가
-
-```python
-best_model = LogisticRegression(
-    random_state=42,
-    solver='liblinear',
-    penalty='l2',
-    C=1e-17
-)
-best_model.fit(X_scaled, y)
-```
 
 
 
 ***
 
 
-# 4. DL
+# 3. DL
 
 ## 최적 옵티마이저 선정
 
@@ -250,3 +215,57 @@ print("Best ROC-AUC:", best_result[-1])
 
     
 
+***
+
+# 4. ML
+
+## 4-1. 데이터 전처리
+
+- **이상치 처리**  
+  - Winsorizing(상/하위 1% 값 클리핑)  
+  - IQR(사분위 범위) 기반 이상치 조정
+ 
+- **로그 변환**  
+  - 현재 미상환 신용액, 월 상환 부채액, 현재 대출 잔액 로그 변환
+    
+- **파생 변수 추가**  
+  - `마지막 연체 이후 경과 개월 수`가 0이면 `연체 없음` 컬럼 추가
+    
+- **결측치 처리**  
+  - KNNImputer(n_neighbors=25)를 이용한 결측치 보간
+    
+- **정규화**  
+  - StandardScaler를 사용하여 평균 0, 분산 1로 변환
+
+## 4-2. 하이퍼 파라미터 튜닝
+
+![Image](https://github.com/user-attachments/assets/25608378-eb52-4c3d-a9e3-486b0b612c65)
+
+
+## 4-3. 모델 학습 및 평가
+
+
+![Image](https://github.com/user-attachments/assets/74b1ecf9-11f3-4a13-bab0-5477682b5583)
+
+
+### **로지스틱 회귀(Logistic Regression)**
+
+- `C=1e-17, L2 규제 적용`
+- `solver='liblinear'` 사용
+- ROC-AUC 점수 평가
+
+```python
+best_model = LogisticRegression(
+    random_state=42,
+    solver='liblinear',
+    penalty='l2',
+    C=1e-17
+)
+best_model.fit(X_scaled, y)
+```
+
+![Image](https://github.com/user-attachments/assets/fb0f7467-5d5a-44c4-8452-3a54d750c560)
+
+![Image](https://github.com/user-attachments/assets/5af08f58-de01-4e56-9587-0a65e5b147ef)
+
+![Image](https://github.com/user-attachments/assets/f1c6306f-8978-42cb-85ca-c0f0bba3c30e)

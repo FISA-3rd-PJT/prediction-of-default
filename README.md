@@ -72,11 +72,91 @@
 ***
 
 
-3. DL
+## 3. DL
 
 
 
 ***
 
 
-4. ML
+## 4. ML
+
+### 최적 옵티마이저 선정
+
+50회 / 조기종료
+ADAM    .7344 / .7316
+RMSprop .7334 / .7316
+SGD     .7332 / .7315
+adamW   .7325 / .7312
+adagrad .7318 / .7319
+
+
+### 하이퍼 파라미터 튜닝
+활성화함수, 학습률, input_dim, 드롭아웃, 배치 사이즈 등을 수정하며 성능이 가장 높게 나오는 경우를 도출
+
+
+
+    from itertools import product
+    optimizer_lr_pairs = []
+    for opt in ['Adam']:  # 최적화된 옵티마이저로 고정
+        for lr in [0.001, 0.01]:  # 최적화된 학습률로 고정
+            optimizer_lr_pairs.append((opt, lr))
+    
+    first_size_options = [64, 128, 56]  # first_size
+    dropout_rate_options = [0.3, 0.2]  # 드롭아웃
+    batch_size_options = [64, 128]  # 배치 사이즈
+    activation_functions = [nn.ReLU, nn.LeakyReLU, nn.ELU, nn.Mish, nn.SELU] # 활성화함수
+    
+    all_combinations = product(optimizer_lr_pairs, first_size_options, dropout_rate_options, batch_size_options, activation_functions)
+    
+    results = []
+    for combo in all_combinations:
+        opt_lr, first_size, dropout_rate, batch_size, activation = combo
+        opt_name, lr = opt_lr
+        epoch, auc = train_and_evaluate(opt_name, lr, first_size, dropout_rate, batch_size, activation)
+        results.append((opt_name, lr, first_size, dropout_rate, batch_size, activation.__name__, epoch, auc))
+    
+    best_result = max(results, key=lambda x: x[-1])
+    print("Best hyper-parameters:", best_result[:-1])
+    print("Best ROC-AUC:", best_result[-1])
+
+
+✅ Adam, lr=0.001, first_size=128, dropout_rate=0.3, batch_size=64, activation_function=ReLU
+
+
+    import torch
+    import torch.nn as nn
+    import torch.nn.functional as F
+    
+    class CreditRiskModel(nn.Module):
+        def __init__(self, input_dim, first_size, dropout_rate, activation):
+            super(CreditRiskModel, self).__init__()
+            self.activation = activation  # 활성화 함수를 파라미터로 받음
+            self.model = nn.Sequential(
+                nn.Linear(input_dim, first_size),
+                nn.BatchNorm1d(first_size),
+                self.activation(),  # 첫 번째 은닉층에 적용
+    
+                nn.Dropout(dropout_rate),
+                nn.Linear(first_size, first_size // 2),
+                nn.BatchNorm1d(first_size // 2),
+                self.activation(),  # 두 번째 은닉층에 적용
+    
+                nn.Dropout(dropout_rate),
+                nn.Linear(first_size // 2, first_size // 4),
+                nn.BatchNorm1d(first_size // 4),
+                self.activation(),  # 세 번째 은닉층에 적용
+    
+                nn.Dropout(dropout_rate),
+                nn.Linear(first_size // 4, first_size // 8),
+                self.activation(),  # 네 번째 은닉층에 적용
+    
+                nn.Linear(first_size // 8, 1),
+                nn.Sigmoid()  # 출력층 (이진 분류를 위한 시그모이드)
+            )
+    
+        def forward(self, x):
+            return self.model(x)
+
+    
+

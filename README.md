@@ -118,6 +118,7 @@
       upper_bound = Q3 + 1.5 * IQR
       df[col] = np.clip(df[col], lower_bound, upper_bound)
       return df
+  
   numerical_cols = ['연간 소득', '체납 세금 압류 횟수', '개설된 신용계좌 수', '신용 거래 연수', '최대 신용한도',
                     '신용 문제 발생 횟수', '마지막 연체 이후 경과 개월 수', '개인 파산 횟수', '현재 대출 잔액',
                     '현재 미상환 신용액', '월 상환 부채액', '신용 점수']
@@ -167,22 +168,28 @@
 
 ```python
 from itertools import product
+
 optimizer_lr_pairs = []
 for opt in ['Adam', 'SGD']:  # 최적화된 옵티마이저
     for lr in [0.01, 0.001]:  # 최적화된 학습률
         optimizer_lr_pairs.append((opt, lr))
+
 first_size_options = [256, 128, 64]  # 최적화된 첫 번째 층 크기
 dropout_rate_options = [0.5, 0.3, 0.1]  # 최적화된 드롭아웃 비율
 batch_size_options = [64]  # 최적화된 배치 크기
 activation_functions = [nn.ReLU, nn.LeakyReLU, nn.ELU]
+
 all_combinations = product(optimizer_lr_pairs, first_size_options, dropout_rate_options, batch_size_options, activation_functions)
+
 results = []
 for combo in all_combinations:
     opt_lr, first_size, dropout_rate, batch_size, activation = combo
     opt_name, lr = opt_lr
     epoch, auc = train_and_evaluate(opt_name, lr, first_size, dropout_rate, batch_size, activation)
     results.append((opt_name, lr, first_size, dropout_rate, batch_size, activation.__name__, epoch, auc))
+
 best_result = max(results, key=lambda x: x[-1])
+
 print("Best hyper-parameters:", best_result[:-1])
 print("Best ROC-AUC:", best_result[-1])
 
@@ -266,11 +273,13 @@ param_grid_rf = {
     'max_depth': [None, 10, 20],
     'min_samples_split': [2, 5, 10]
 }
+
 param_grid_xgb = {
     'n_estimators': [50, 100, 200],
     'max_depth': [3, 5, 7],
     'learning_rate': [0.01, 0.1, 0.3]
 }
+
 param_grid_lgbm = {
     'n_estimators': [50, 100, 200],
     'max_depth': [3, 5, 7],

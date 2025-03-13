@@ -56,12 +56,10 @@ _👆 click_
 | 17  | 채무 불이행 여부          | 10000 non-null   | int64    |
 
 
+![Image](https://github.com/user-attachments/assets/71df42d9-c82c-48d0-9a5d-a8932d864aae)
 
+![Image](https://github.com/user-attachments/assets/44ef14b0-1c00-43a5-acf7-314838fc2811)
 
-
-| ![Image](https://github.com/user-attachments/assets/71df42d9-c82c-48d0-9a5d-a8932d864aae) | ![Image](https://github.com/user-attachments/assets/44ef14b0-1c00-43a5-acf7-314838fc2811) |
-|:---------------------------------------------------:|:--------------------------------------------------------:|
-| 데이터 예시1                              | 데이터 예시2                               |
 
 
 </br>

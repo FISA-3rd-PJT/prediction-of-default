@@ -142,17 +142,13 @@ best_model.fit(X_scaled, y)
 
 ## 최적 옵티마이저 선정
 
-50회 / 조기종료
-
-ADAM    .7344 / .7316
-
-RMSprop .7334 / .7316
-
-SGD     .7332 / .7315
-
-adamW   .7325 / .7312
-
-adagrad .7318 / .7319
+| 옵티마이저 | 50회 | 조기종료 |
+|------------|---------|---------|
+| ADAM       | 0.7344  | 0.7316  |
+| RMSprop    | 0.7334  | 0.7316  |
+| SGD        | 0.7332  | 0.7315  |
+| adamW      | 0.7325  | 0.7312  |
+| adagrad    | 0.7318  | 0.7319  |
 
 
 ## 하이퍼 파라미터 튜닝
@@ -183,9 +179,12 @@ print("Best ROC-AUC:", best_result[-1])
 
 ```
 
-![Image](https://github.com/user-attachments/assets/6f4c5d4d-cf2b-4c99-ab4e-1b861f3b3d26)
 
 ![Image](https://github.com/user-attachments/assets/819c438b-78d6-4581-8f75-4759293adaf4)
+
+
+![Image](https://github.com/user-attachments/assets/9d436cf4-5c00-47d9-a0f4-9448b0e018d4)
+
 
 
 **✅ Adam, lr=0.001, first_size=128, dropout_rate=0.3, batch_size=64, activation_function=ReLU**

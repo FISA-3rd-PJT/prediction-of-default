@@ -1,5 +1,7 @@
 # 채무 불이행 예측 AI 모델 개발
 
+![Image](https://github.com/user-attachments/assets/3a10c773-2c76-42f8-acac-eb2a937ea6cf)
+
 ## 1. 프로젝트 개요
 이 프로젝트는 개인의 채무 불이행 여부를 예측하는 AI 모델을 개발하는 프로젝트입니다. 금융 서비스 제공자에게 리스크 관리와 고객 맞춤형 서비스를 제공하기 위해, 수집된 데이터를 기반으로 머신러닝 및 딥러닝 기법을 적용하여 채무 불이행 여부를 예측하는 모델을 구축하였습니다.
 
@@ -71,26 +73,33 @@
 **해당 비율을 라벨 인코딩 순서로 활용**
 
 
-## 2-3. 파생변수
+## 2-3. 전처리
 
-    # 파생 변수 생성: "마지막 연체 이후 경과 개월 수"가 0이면 "연체 없음" 컬럼 추가
-    X["연체 없음"] = (X["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
-    test_df["연체 없음"] = (test_df["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
+- 파생변수
 
+      # 파생 변수 생성: "마지막 연체 이후 경과 개월 수"가 0이면 "연체 없음" 컬럼 추가
+      X["연체 없음"] = (X["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
+      test_df["연체 없음"] = (test_df["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
+
+
+- 수치변수 로그변환
+
+      log_columns = ["현재 미상환 신용액", "월 상환 부채액", "현재 대출 잔액"]
+      for col in log_columns:
+          X[col] = np.log1p(X[col])
+          test_df[col] = np.log1p(test_df[col])
+
+***
+
+
+## 3. ML
 
 
 
 ***
 
 
-## 3. DL
-
-
-
-***
-
-
-## 4. ML
+## 4. DL
 
 ### 최적 옵티마이저 선정
 
@@ -137,12 +146,8 @@ adagrad .7318 / .7319
     print("Best ROC-AUC:", best_result[-1])
 
 
-✅ Adam, lr=0.001, first_size=128, dropout_rate=0.3, batch_size=64, activation_function=ReLU
+**✅ Adam, lr=0.001, first_size=128, dropout_rate=0.3, batch_size=64, activation_function=ReLU**
 
-
-    import torch
-    import torch.nn as nn
-    import torch.nn.functional as F
     
     class CreditRiskModel(nn.Module):
         def __init__(self, input_dim, first_size, dropout_rate, activation):

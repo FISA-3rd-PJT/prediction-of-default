@@ -76,21 +76,21 @@
 
 ## 2-3. 전처리
 
-- 파생변수
+- **파생변수**
 
       # 파생 변수 생성: "마지막 연체 이후 경과 개월 수"가 0이면 "연체 없음" 컬럼 추가
       X["연체 없음"] = (X["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
       test_df["연체 없음"] = (test_df["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
 
 
-- 수치변수 로그변환
+- **수치변수 로그변환**
 
       log_columns = ["현재 미상환 신용액", "월 상환 부채액", "현재 대출 잔액"]
       for col in log_columns:
           X[col] = np.log1p(X[col])
           test_df[col] = np.log1p(test_df[col])
 
-- 결측값 처리
+- **결측값 처리**
 
       knn_imputer = KNNImputer(n_neighbors=25)
       X_imputed = knn_imputer.fit_transform(X)
@@ -182,12 +182,15 @@ print("Best ROC-AUC:", best_result[-1])
 
 ![Image](https://github.com/user-attachments/assets/819c438b-78d6-4581-8f75-4759293adaf4)
 
-
-![Image](https://github.com/user-attachments/assets/9d436cf4-5c00-47d9-a0f4-9448b0e018d4)
-
+![Image](https://github.com/user-attachments/assets/cc29a8bb-0289-496e-9d28-3d6270a0bd37)
 
 
-**✅ Adam, lr=0.001, first_size=128, dropout_rate=0.3, batch_size=64, activation_function=ReLU**
+
+**✅ 28 epoch**
+
+**Best hyper-parameters: ('Adam', 0.001, 128, 0.3, 64, 'LeakyReLU', 28)**
+
+**Best ROC-AUC: 0.7368424565791055**
 
     
     class CreditRiskModel(nn.Module):

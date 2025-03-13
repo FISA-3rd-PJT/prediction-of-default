@@ -89,6 +89,13 @@
           X[col] = np.log1p(X[col])
           test_df[col] = np.log1p(test_df[col])
 
+- 결측값 처리
+
+      knn_imputer = KNNImputer(n_neighbors=25)
+      X_imputed = knn_imputer.fit_transform(X)
+      test_imputed = knn_imputer.transform(test_df)
+
+
 ***
 
 

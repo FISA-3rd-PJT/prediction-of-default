@@ -299,4 +299,6 @@ best_model.fit(X_scaled, y)
 
 ***
 
+# 🏆 해커톤 랭킹
+
 ![Image](https://github.com/user-attachments/assets/e5169478-a504-41e9-8c11-db7902e2d082)

@@ -12,7 +12,9 @@
 
 ### 🚀 우리 FISA 4기 AI엔지니어링
 
-**강효진 윤웅상 이재영 허정원**
+| [강효진](https://github.com/KangHyojin1401) | [윤웅상](https://github.com/UngSangYoon)|  [이재영](https://github.com/lejy) | [허정원](https://github.com/weonyee) |
+|:---:|:---:|:---:|:---:|
+|<img src="https://avatars.githubusercontent.com/u/67770370?v=4" width=100px alt="_"/>|<img width=100px src="https://avatars.githubusercontent.com/u/124053569?v=4" alt="_"/>|<img src="https://avatars.githubusercontent.com/u/129030474?v=4" width=100px alt="_"/>|<img src="https://avatars.githubusercontent.com/u/193207778?v=4" width=100px alt="_"/>|
 
 ### 📆 프로젝트 기간
 

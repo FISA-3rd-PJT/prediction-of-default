@@ -89,24 +89,27 @@
 ## 2-3. 전처리
 
 - **파생변수**
-
-      # 파생 변수 생성: "마지막 연체 이후 경과 개월 수"가 0이면 "연체 없음" 컬럼 추가
-      X["연체 없음"] = (X["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
-      test_df["연체 없음"] = (test_df["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
+  ```python
+  # 파생 변수 생성: "마지막 연체 이후 경과 개월 수"가 0이면 "연체 없음" 컬럼 추가
+  X["연체 없음"] = (X["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
+  test_df["연체 없음"] = (test_df["마지막 연체 이후 경과 개월 수"] == 0).astype(int)
+  ```
 
 
 - **수치변수 로그변환**
-
-      log_columns = ["현재 미상환 신용액", "월 상환 부채액", "현재 대출 잔액"]
-      for col in log_columns:
-          X[col] = np.log1p(X[col])
-          test_df[col] = np.log1p(test_df[col])
+  ```python
+  log_columns = ["현재 미상환 신용액", "월 상환 부채액", "현재 대출 잔액"]
+  for col in log_columns:
+      X[col] = np.log1p(X[col])
+      test_df[col] = np.log1p(test_df[col])
+  ```
 
 - **결측값 처리**
-
-      knn_imputer = KNNImputer(n_neighbors=25)
-      X_imputed = knn_imputer.fit_transform(X)
-      test_imputed = knn_imputer.transform(test_df)
+  ```python
+  knn_imputer = KNNImputer(n_neighbors=25)
+  X_imputed = knn_imputer.fit_transform(X)
+  test_imputed = knn_imputer.transform(test_df)
+  ```
 
 - **이상치 처리**
   ```python
@@ -188,37 +191,37 @@ print("Best ROC-AUC:", best_result[-1])
 **Best ROC-AUC: 0.7368424565791055**
 
 
-    
-    class CreditRiskModel(nn.Module):
-        def __init__(self, input_dim, first_size, dropout_rate, activation):
-            super(CreditRiskModel, self).__init__()
-            self.activation = activation  # 활성화 함수를 파라미터로 받음
-            self.model = nn.Sequential(
-                nn.Linear(input_dim, first_size),
-                nn.BatchNorm1d(first_size),
-                self.activation(),  # 첫 번째 은닉층에 적용
-    
-                nn.Dropout(dropout_rate),
-                nn.Linear(first_size, first_size // 2),
-                nn.BatchNorm1d(first_size // 2),
-                self.activation(),  # 두 번째 은닉층에 적용
-    
-                nn.Dropout(dropout_rate),
-                nn.Linear(first_size // 2, first_size // 4),
-                nn.BatchNorm1d(first_size // 4),
-                self.activation(),  # 세 번째 은닉층에 적용
-    
-                nn.Dropout(dropout_rate),
-                nn.Linear(first_size // 4, first_size // 8),
-                self.activation(),  # 네 번째 은닉층에 적용
-    
-                nn.Linear(first_size // 8, 1),
-                nn.Sigmoid()  # 출력층 (이진 분류를 위한 시그모이드)
-            )
-    
-        def forward(self, x):
-            return self.model(x)
+```python
+class CreditRiskModel(nn.Module):
+    def __init__(self, input_dim, first_size, dropout_rate, activation):
+        super(CreditRiskModel, self).__init__()
+        self.activation = activation  # 활성화 함수를 파라미터로 받음
+        self.model = nn.Sequential(
+            nn.Linear(input_dim, first_size),
+            nn.BatchNorm1d(first_size),
+            self.activation(),  # 첫 번째 은닉층에 적용
 
+            nn.Dropout(dropout_rate),
+            nn.Linear(first_size, first_size // 2),
+            nn.BatchNorm1d(first_size // 2),
+            self.activation(),  # 두 번째 은닉층에 적용
+
+            nn.Dropout(dropout_rate),
+            nn.Linear(first_size // 2, first_size // 4),
+            nn.BatchNorm1d(first_size // 4),
+            self.activation(),  # 세 번째 은닉층에 적용
+
+            nn.Dropout(dropout_rate),
+            nn.Linear(first_size // 4, first_size // 8),
+            self.activation(),  # 네 번째 은닉층에 적용
+
+            nn.Linear(first_size // 8, 1),
+            nn.Sigmoid()  # 출력층 (이진 분류를 위한 시그모이드)
+        )
+
+    def forward(self, x):
+        return self.model(x)
+```
     
 
 ***

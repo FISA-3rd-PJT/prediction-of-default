@@ -288,13 +288,14 @@ best_model.fit(X_scaled, y)
 
 ### 📊 모델 비교 결과
 
-| ![모델 1](https://github.com/user-attachments/assets/fb0f7467-5d5a-44c4-8452-3a54d750c560) | ![모델 2](https://github.com/user-attachments/assets/5af08f58-de01-4e56-9587-0a65e5b147ef) |
-|:---------------------------------------------------:|:----------------------------------------------------:|
-| **logistic regression coefficients** | **Confusion matrix** |
 
-| ![모델 3](https://github.com/user-attachments/assets/f1c6306f-8978-42cb-85ca-c0f0bba3c30e) | ![Image](https://github.com/user-attachments/assets/9c1bc8a6-86e5-4c5c-8c6a-3445d7dfdf25) |
+| ![모델 1](https://github.com/user-attachments/assets/fb0f7467-5d5a-44c4-8452-3a54d750c560) |  |
 |:---------------------------------------------------:|:----------------------------------------------------:|
-| **ROC-AUC 커브** |  |
+| **logistic regression coefficients** |  |
+
+| ![모델 3](https://github.com/user-attachments/assets/f1c6306f-8978-42cb-85ca-c0f0bba3c30e) | ![모델 2](https://github.com/user-attachments/assets/5af08f58-de01-4e56-9587-0a65e5b147ef) |
+|:---------------------------------------------------:|:----------------------------------------------------:|
+| **ROC-AUC 커브** | **Confusion matrix** |
 
 ***
 
